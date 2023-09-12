@@ -1,0 +1,4 @@
+instead o compare for (n*(n-1))/2 times, by using hash technique, we can just
+do it a small number of times(assuming the hash function can distribute objects evenly, not so much collisions.
+
+Whenever you’re working on a problem, and you find yourself REPEATEDLY SEARCHING FOR SOME ELEMENT, consider using a hash table. A hash table takes a slow array search and converts it into a fast lookup. Unlike for Unique Snowflakes, when solving other problems you may be able to begin by sorting the array. A technique called binary search (discussed in Chapter 6) could then be used to quickly search for elements in the sorted array. However, even sorting an array and then using binary search can’t compete with the speed of a hash table.
