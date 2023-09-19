@@ -7,15 +7,99 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
-#include"stack_tree.h"
-#define SIZE 256
+#define TEST_CASES 5
+#define LINE_SIZE 256
+
+typedef struct node {
+  int data;
+  struct node *left, *right;
+} node;
+
+
+node* new_node(int data, node *left, node *right) {
+  node *n = malloc(sizeof(node));
+  if (!n) {
+    fprintf(stderr, "malloc error\n");
+    exit(1);
+  }
+  n->data = data;
+  n->left = left;
+  n->right = right;
+  return n;
+}
+
+int leaves_weight(node *tree){
+  // sum up the data of all leaf nodes
+  if(!tree->left && !tree->right)
+    return tree->data;
+  return leaves_weight(tree->left) + leaves_weight(tree->right);
+}
+
+int edges(node *tree) {
+  if(!tree->left && !tree->right)
+    return 0;
+  if(!tree->left && tree->right)
+    return 1 + edges(tree->right);
+  if(tree->left && !tree->right)
+    return 1 + edges(tree->left);
+  return 2 + edges(tree->left) + edges(tree->right);
+}
+
+int max(int n1, int n2){
+  return n1>n2? n1:n2;
+}
+
+int height(node *tree) {
+  if (!tree || (!tree->left && !tree->right))
+    return 0;
+  if (tree->left && !tree->right)
+    return 1 + height(tree->left);
+  if (tree->right && !tree->left)
+    return 1 + height(tree->right);
+  return max(height(tree->left), height(tree->right)) + 1;
+}
+
+node *read_tree_helper(char *line, int *pos){
+  node *tree = malloc(sizeof(node));
+  if (!tree) {
+    fprintf(stderr, "malloc error\n");
+    exit(1);
+  }
+
+  if(line[*pos]=='('){
+    /* start of a tree */
+    (*pos)++; /* skip begin ( */
+    tree->left = read_tree_helper(line, pos);
+    (*pos)++; /* skip space */
+    tree->right = read_tree_helper(line, pos);
+    (*pos)++; /* skip end ) */
+    return tree;
+  }else{
+    /* reads a number, ie this is a house */
+    tree->left = NULL;
+    tree->right = NULL;
+    tree->data = line[*pos] - '0';
+    (*pos)++;
+    while (line[*pos] != ' ' && line[*pos] != ')' && line[*pos] != '\0') {
+      /* the next char is also a number, should continue reading */
+      tree->data = tree->data * 10 + line[*pos] - '0';
+      (*pos)++;
+    }
+    return tree;
+  }
+}
+
+node *read_tree(char *line){
+  int pos = 0;
+  return read_tree_helper(line, &pos);
+}
 
 char *read_line(int size) {
   char *str;
   int ch;
   int len = 0;
   str = malloc(size);
-  if (str == NULL) {
+  if (!str) {
     fprintf(stderr, "malloc error\n");
     exit(1);
   }
@@ -25,7 +109,7 @@ char *read_line(int size) {
     if(len == size) {
       size = size * 2;
       str = realloc(str, size);
-      if (str == NULL) {
+      if (!str) {
         fprintf(stderr, "malloc error\n");
         exit(1);
       }
@@ -35,78 +119,23 @@ char *read_line(int size) {
   return str;
 }
 
-void node_ops(node* n){
-  printf("%d\n", n->data);
+void solve(node *tree){
+  int longest = height(tree);
+  int candy = leaves_weight(tree);
+  int streets = 2 * edges(tree);
+  printf("%d %d\n", streets - longest, candy);
 }
 
-void stack_traverse_tree(node* tree) {
-  tree_stack* stack = new_stack(SIZE);
-
-  while(tree) {
-    node_ops(tree);
-    if (!tree->right && !tree->left){
-      if(is_empty(stack))
-        tree = NULL;
-      else
-        tree = pop(stack);
-    }else if (!tree->left && tree->right) {
-      tree = tree->right;
-    }else if (tree->left && !tree->right) {
-      tree = tree->left;
-    }else{
-      /* both left and right child exit */
-      push(stack, tree->right);
-      tree = tree->left;
-    }
-  }
-  free(stack->nodes);
-  free(stack);
-}
-
-void recursion_traverse_tree(node *tree){
-  if(!tree)
-    return;
-  node_ops(tree);
-  recursion_traverse_tree(tree->left);
-  recursion_traverse_tree(tree->right);
-}
 
 int main(void) {
-  // mock tree
-  node *n15 = new_node(15, NULL, NULL);
-  node *n14 = new_node(14, NULL, NULL);
-  node *n13 = new_node(13, NULL, NULL);
-  node *n12 = new_node(12, NULL, NULL);
-  node *n11 = new_node(11, NULL, NULL);
-  node *n10 = new_node(10, NULL, NULL);
-  node *n9 = new_node(9, NULL, NULL);
-  node *n8 = new_node(8, NULL, NULL);
-  node *n7 = new_node(7, n14, n15);
-  node *n6 = new_node(6, n12, n13);
-  node *n5 = new_node(5, n10, n11);
-  node *n4 = new_node(4, n8, n9);
-  node *n3 = new_node(3, n6, n7);
-  node *n2 = new_node(2, n4, n5);
-  node *n1 = new_node(1, n2, n3);
-
-  stack_traverse_tree(n1);
-  printf("#########\n");
-  recursion_traverse_tree(n1);
-
   int i;
-  node *nn = new_node(10,NULL,NULL);
-  node *n = new_node(10,nn,NULL);
-  node *np;
-  for(i=0; i<100000; i++){
-    np = new_node(10, NULL, NULL);
-    nn->left = np;
-    nn = np;
+  char *line;
+  node *tree;
+  for (i = 0; i < TEST_CASES; i++) {
+    line = read_line(LINE_SIZE);
+    tree = read_tree(line);
+    solve(tree);
   }
-
-  recursion_traverse_tree(n);
-
-  printf("all leaves_weight sum up to: %d\n", leaves_weight(n1));
-  printf("shortest path: %d\n", 2 * edges(n1) - height(n1));
   return 0;
 }
 
