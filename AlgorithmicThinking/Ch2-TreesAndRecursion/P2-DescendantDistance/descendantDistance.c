@@ -22,6 +22,8 @@ typedef struct node
   int score; /* num of decendants ar certain depth */
 } node;
 
+typedef int (*Sorter)(node **, int, int);
+
 void *safe_malloc(int size)
 {
   char *mem = malloc(size);
@@ -88,6 +90,37 @@ void count_descendant(node *p, int depth, int *cnt)
     count_descendant(p->children[i], depth - 1, cnt);
 }
 
+int sorter_score(node *nodes[], int i, int j)
+{
+  return nodes[i]->score < nodes[j]->score;
+}
+
+int sorter_name(node *nodes[], int i, int j)
+{
+  printf("comparing from %d to %d\n", i, j);
+  return strcmp(nodes[i]->name, nodes[j]->name);
+}
+
+// sort nodes in place from index i to j using sorter function
+// void sort(node *nodes[], int i, int j, int(*sorter)(node**, int, int))
+void sort(node *nodes[], int i, int j, Sorter sorter)
+{
+  int a, b;
+  node *temp;
+  for (a = i; a < j; a++)
+  {
+    for (b = a; b < j; b++)
+    {
+      if (sorter(nodes, a, b))
+      {
+        temp = nodes[a];
+        nodes[a] = nodes[b];
+        nodes[b] = temp;
+      }
+    }
+  }
+}
+
 void solve_tree(node *hash_table[], node **parents, int num_parents, int depth)
 {
   int pos;
@@ -99,50 +132,39 @@ void solve_tree(node *hash_table[], node **parents, int num_parents, int depth)
   }
 
   // sort parents by parents->score: high -> low
-  int i, j;
-  node *temp;
-  for (i = 0; i < num_parents; i++)
+  sort(parents, 0, num_parents, sorter_score);
+
+  // sort those have same score by name
+  int i = 0, j = 0;
+  while (1)
   {
-    for (j = i; j < num_parents; j++)
+    while (parents[j]->score == parents[i]->score)
     {
-      if (parents[i]->score < parents[j]->score)
-      {
-        temp = parents[i];
-        parents[i] = parents[j];
-        parents[j] = temp;
-      }
+      j++;
+      if (j == num_parents)
+        break;
     }
-  }
 
-  /* // sort those have same score by name */
-  /* i = j = 0; */
-  /* while(1){ */
-  /*   if(parents[j]->score==parents[i]->score) */
-  /*     j++; */
-  /*   if(j == num_parents + 1) */
-  /*     break; */
-
-  /*   // now [i, j) are with the same score. */
-  /*   int a=i, b=j; */
-  /*   for (i = a; i < b; i++) */
-  /*   { */
-  /*     for (j = i; j < b; j++) */
-  /*     { */
-  /*       if (parents[i]->name > parents[j]->name) */
-  /*       { */
-  /*         temp = parents[i]; */
-  /*         parents[i] = parents[j]; */
-  /*         parents[j] = temp; */
-  /*       } */
-  /*     } */
-  /*   } */
-  /*   // process next segmant */
-  /*   i = j; */
-  /* } */
-
-  for (i = 0; i < num_parents; i++)
-  {
-    printf("[%d]%s has %d\n", i, parents[i]->name, parents[i]->score);
+    // int a=i, b=j;
+    // for (i = a; i < b; i++)
+    // {
+    //   for (j = i; j < b; j++)
+    //   {
+    //     if (parents[i]->name > parents[j]->name)
+    //     {
+    //       temp = parents[i];
+    //       parents[i] = parents[j];
+    //       parents[j] = temp;
+    //     }
+    //   }
+    // }
+    // now [i, j) are with the same score.
+    sort(parents, i, j, sorter_name);
+    // process next segmant
+    i = j;
+    if (i == num_parents)
+      break;
+    // j = i + 1;
   }
 
   pos = 0;
@@ -259,21 +281,24 @@ int main(void)
       }
     }
 
-    printf("Tree %d:\n", i);
+    printf("Tree %d:\n", i + 1);
     solve_tree(hash_table, parents, pos, depth);
     if (i < trees)
       printf("\n");
-    int f, p;
+    // int f, p;
     // for(f = 0; f < pos; f++){
     //   // free parent
-    //   // for (p = 0; p < parents[f]->num_children; p++){
-    //   //   free(parents[f]->children[p]);
-    //   // }
+    //   for (p = 0; p < parents[f]->num_children; p++){
+    //     free(parents[f]->children[p]);
+    //     parents[f]->children[p] = 0;
+    //   }
     //   free(parents[f]);
+    //   parents[f] = 0;
     // }
     // free(parents);
+    // parents = 0;
     // free(line);
+    // line = 0;
   }
   return 0;
 }
-
