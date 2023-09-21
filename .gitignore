@@ -39,6 +39,3 @@
 
 # valgrind core dumps
 vgcore.*
-
-# vscode
-.vscode

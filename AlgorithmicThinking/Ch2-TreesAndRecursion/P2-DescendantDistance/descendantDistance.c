@@ -24,7 +24,7 @@ typedef struct node
 
 void *safe_malloc(int size)
 {
-  void *mem = malloc(size);
+  char *mem = malloc(size);
   if (!mem)
   {
     fprintf(stderr, "malloc error\n");
@@ -147,7 +147,7 @@ void solve_tree(node *hash_table[], node **parents, int num_parents, int depth)
 
   pos = 0;
   int last_score = parents[pos]->score, cur_score, total = 0;
-  while (1)
+  while (pos < num_parents)
   {
     cur_score = parents[pos]->score;
     // dont print those have zero descendant
@@ -249,8 +249,7 @@ int main(void)
         {
           // new child, add child to hash table
           long child_hash = oaat(word, strlen(word), NUM_BITS);
-          child = safe_malloc(sizeof(node));
-          child->name = word;
+          child = new_node(word);
           child->next = hash_table[child_hash];
           hash_table[child_hash] = child;
         }
@@ -265,15 +264,15 @@ int main(void)
     if (i < trees)
       printf("\n");
     int f, p;
-    for(f = 0; f < pos; f++){
-      // free parent
-      // for (p = 0; p < parents[f]->num_children; p++){
-      //   free(parents[f]->children[p]);
-      // }
-      free(parents[f]);
-    }
-    free(parents);
-    free(line);
+    // for(f = 0; f < pos; f++){
+    //   // free parent
+    //   // for (p = 0; p < parents[f]->num_children; p++){
+    //   //   free(parents[f]->children[p]);
+    //   // }
+    //   free(parents[f]);
+    // }
+    // free(parents);
+    // free(line);
   }
   return 0;
 }
