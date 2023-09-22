@@ -21,8 +21,6 @@ typedef struct node {
   int score; /* num of decendants ar certain depth */
 } node;
 
-typedef int (*Comparator)(node **, int, int);
-
 void *safe_malloc(int size) {
   char *mem = malloc(size);
   if (!mem) {
@@ -80,12 +78,6 @@ int count_descendants(node *p, int depth) {
   return total;
 }
 
-int compare(node *nodes[], int i, int j) {
-  if (nodes[i]->score == nodes[j]->score)
-    return strcmp(nodes[i]->name, nodes[j]->name) > 0;
-  return nodes[i]->score < nodes[j]->score;
-}
-
 int qcompare(const void* v1, const void* v2){
   const node* n1 = *(const node**)v1;
   const node* n2 = *(const node**)v2;
@@ -100,20 +92,6 @@ void printNodes(node **nodes, int len, char *header) {
   for (int i = 0; i < len; i++)
     printf("[%d]%s(%d) ", i, nodes[i]->name, nodes[i]->score);
   printf("\n");
-}
-
-// sort nodes in place from index i to j using sorter function
-// void sort(node *nodes[], int i, int j, int(*sorter)(node**, int, int))
-void sort(node *nodes[], int i, int j, Comparator cmp) {
-  int a, b;
-  node *temp;
-  for (a = i; a < j; a++)
-    for (b = a + 1; b < j; b++)
-      if (cmp(nodes, a, b)) {
-        temp = nodes[a];
-        nodes[a] = nodes[b];
-        nodes[b] = temp;
-      }
 }
 
 void solve_tree(node *hash_table[], node **parents, int num_parents,

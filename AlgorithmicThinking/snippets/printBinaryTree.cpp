@@ -2,17 +2,17 @@
  * @author leon
  * @created Sep 13, 2023 at 18:20:45
  */
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-#include<string.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct node {
   int data;
   struct node *left, *right;
 } node;
 
-node* new_node(int data, node *left, node *right) {
+node *new_node(int data, node *left, node *right) {
   node *n = new node;
   n->data = data;
   n->left = left;
@@ -20,9 +20,7 @@ node* new_node(int data, node *left, node *right) {
   return n;
 }
 
-int max(int n1, int n2){
-  return n1 > n2 ? n1:n2;
-}
+int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 
 int height(node *tree) {
   if (!tree)
@@ -30,22 +28,19 @@ int height(node *tree) {
   return max(height(tree->left), height(tree->right)) + 1;
 }
 
-int width(int height) {
-  return pow(2.0, height + 1e-10) - 1;
-}
-
+int width(int height) { return pow(2.0, height + 1e-10) - 1; }
 
 int initPrint(int **M, node *n, int row, int col, int height) {
-  if(!n)
+  if (!n)
     return 0;
   printf("set (%d, %d) as %d\n", row, col, n->data);
   M[row][col] = n->data;
   /* the smaller the subtree(height) is, the narrower the (col) gaps are. */
   initPrint(M, n->left, row + 1, col - (int)pow(2.0, height - 2.0), height - 1);
-  initPrint(M, n->right, row + 1, col + (int)pow(2.0, height - 2.0), height - 1);
+  initPrint(M, n->right, row + 1, col + (int)pow(2.0, height - 2.0),
+            height - 1);
   return 0;
 }
-
 
 /* this is the func to print the binary tree */
 int printTree(node *tree) {
@@ -53,18 +48,17 @@ int printTree(node *tree) {
   int w = width(h);
 
   /* the matrix to be print out */
-  int **M = new int*[h];
-  for(int z=0; z < h; z++)
+  int **M = new int *[h];
+  for (int z = 0; z < h; z++)
     M[z] = new int[w];
-  initPrint(M, tree, 0, w/2, h);
+  initPrint(M, tree, 0, w / 2, h);
 
   int i, j;
-  for (i=0; i < h; i++) {
-    for (j=0; j < w; j++) {
-      if(M[i][j] == 0){
+  for (i = 0; i < h; i++) {
+    for (j = 0; j < w; j++) {
+      if (M[i][j] == 0) {
         printf("     ");
-      }
-      else
+      } else
         printf("%5d", M[i][j]);
     }
     printf("\n");
