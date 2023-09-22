@@ -1,6 +1,6 @@
-/*
+/**
  * @author leon
- * @created Sep 13, 2023 at 18:20:45
+ * @date Sep 13, 2023 at 18:20:45
  */
 #ifndef PRINT_BINARY_TREE
 #define PRINT_BINARY_TREE

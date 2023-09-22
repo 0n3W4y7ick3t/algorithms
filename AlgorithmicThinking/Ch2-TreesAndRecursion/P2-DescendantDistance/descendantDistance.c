@@ -1,6 +1,6 @@
 /**
  * @author leon
- * @created Sep 21, 2023 at 11:09:45
+ * @date Sep 21, 2023 at 11:09:45
  * @link https://dmoj.ca/problem/ecna05b
  */
 #include <stdio.h>
