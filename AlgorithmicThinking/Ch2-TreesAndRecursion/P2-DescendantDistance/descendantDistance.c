@@ -21,7 +21,7 @@ typedef struct node {
   int score; /* num of decendants ar certain depth */
 } node;
 
-typedef int (*Sorter)(node **, int, int);
+typedef int (*Comparator)(node **, int, int);
 
 void *safe_malloc(int size) {
   char *mem = malloc(size);
@@ -68,75 +68,63 @@ node *search_hash_table(node *hash_table[], char *find, unsigned find_len) {
   return NULL;
 }
 
-void count_descendant(node *p, int depth, int *cnt) {
+int count_descendants(node *p, int depth) {
   // set p->score at depth
-  if (depth == 1) {
-    *cnt += p->num_children;
-    return;
-  }
+  int total = 0;
+  if (depth == 1)
+    return p->num_children;
+
   // go down a level and call this again on children
   for (int i = 0; i < p->num_children; i++)
-    count_descendant(p->children[i], depth - 1, cnt);
+    total += count_descendants(p->children[i], depth - 1);
+  return total;
 }
 
-int score_lesser(node *nodes[], int i, int j) {
+int compare(node *nodes[], int i, int j) {
+  if (nodes[i]->score == nodes[j]->score)
+    return strcmp(nodes[i]->name, nodes[j]->name) > 0;
   return nodes[i]->score < nodes[j]->score;
 }
 
-int name_bigger(node *nodes[], int i, int j) {
-  return strcmp(nodes[i]->name, nodes[j]->name) > 0;
+int qcompare(const void* v1, const void* v2){
+  const node* n1 = *(const node**)v1;
+  const node* n2 = *(const node**)v2;
+  if (n1->score == n2->score)
+    return strcmp(n1->name, n2->name);
+  return n2->score - n1->score;
 }
+//  qsort(parents, num_parents, sizeof(node*), qcompare);
 
 void printNodes(node **nodes, int len, char *header) {
   printf("[DEBUG](%s) => ", header);
-  for (int i = 0; i < len; i++) {
+  for (int i = 0; i < len; i++)
     printf("[%d]%s(%d) ", i, nodes[i]->name, nodes[i]->score);
-  }
   printf("\n");
 }
 
 // sort nodes in place from index i to j using sorter function
 // void sort(node *nodes[], int i, int j, int(*sorter)(node**, int, int))
-void sort(node *nodes[], int i, int j, Sorter sorter) {
+void sort(node *nodes[], int i, int j, Comparator cmp) {
   int a, b;
   node *temp;
-  for (a = i; a < j; a++) {
-    for (b = a + 1; b < j; b++) {
-      if (sorter(nodes, a, b)) {
+  for (a = i; a < j; a++)
+    for (b = a + 1; b < j; b++)
+      if (cmp(nodes, a, b)) {
         temp = nodes[a];
         nodes[a] = nodes[b];
         nodes[b] = temp;
       }
-    }
-  }
 }
 
 void solve_tree(node *hash_table[], node **parents, int num_parents,
                 int depth) {
   int pos;
-  for (pos = 0; pos < num_parents; pos++) {
-    int cnt = 0;
-    count_descendant(parents[pos], depth, &cnt);
-    parents[pos]->score = cnt;
-  }
+  for (pos = 0; pos < num_parents; pos++)
+    parents[pos]->score = count_descendants(parents[pos], depth);
 
   // sort parents by parents->score: high -> low
-  sort(parents, 0, num_parents, score_lesser);
-  // sort those have same score by name
-  int i = 0, j = 0;
-  while (i < num_parents) {
-    while (parents[j]->score == parents[i]->score) {
-      j++;
-      if (j == num_parents)
-        break;
-    }
-
-    // now [i, j) are with the same score.
-    sort(parents, i, j, name_bigger);
-
-    // process next segmant
-    i = j;
-  }
+  // sort(parents, 0, num_parents, compare);
+  qsort(parents, num_parents, sizeof(node*), qcompare);
 
   pos = 0;
   int last_score = parents[pos]->score, cur_score, total = 0;
@@ -161,11 +149,7 @@ char *read_line(int size) {
   char *str;
   int ch;
   int len = 0;
-  str = malloc(size);
-  if (!str) {
-    fprintf(stderr, "malloc error\n");
-    exit(1);
-  }
+  str = safe_malloc(size);
   while ((ch = getchar()) != EOF && (ch != '\n')) {
     str[len++] = ch;
     /* len inc, check if size is too small */
@@ -186,9 +170,8 @@ int main(void) {
   int trees;
   scanf("%d", &trees);
   getchar();
-  int i;
 
-  for (i = 0; i < trees; i++) {
+  for (int i = 0; i < trees; i++) {
     /* hash table to look up nodes */
     node *hash_table[1 << NUM_BITS] = {NULL};
     int num_nodes, depth;
@@ -197,8 +180,7 @@ int main(void) {
     getchar();
     node **parents = safe_malloc(sizeof(node *) * num_nodes);
     char *line;
-    int j;
-    for (j = 1; j <= num_nodes; j++) {
+    for (int j = 1; j <= num_nodes; j++) {
       /* read each line */
       line = read_line(MAXNAME);
       // split line into words by space
