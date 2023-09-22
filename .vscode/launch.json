@@ -4,7 +4,7 @@
             "name": "(gdb) Launch with inp",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/a.out",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": ["<","inp"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
