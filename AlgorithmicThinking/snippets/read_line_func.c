@@ -5,17 +5,17 @@ char *read_line(int size) {
   int ch;
   int len = 0;
   str = malloc(size);
-  if (str == NULL) {
+  if (!str) {
     fprintf(stderr, "malloc error\n");
     exit(1);
   }
-  while( (ch = getchar()) != EOF && (ch != '\n') ) {
+  while ((ch = getchar()) != EOF && (ch != '\n')) {
     str[len++] = ch;
     /* len inc, check if size is too small */
-    if(len == size) {
+    if (len == size) {
       size = size * 2;
       str = realloc(str, size);
-      if (str == NULL) {
+      if (!str) {
         fprintf(stderr, "malloc error\n");
         exit(1);
       }
@@ -24,4 +24,3 @@ char *read_line(int size) {
   str[len] = '\0';
   return str;
 }
-
