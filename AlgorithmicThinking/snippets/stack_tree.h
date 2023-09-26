@@ -1,5 +1,5 @@
-#include<stdlib.h>
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct node {
   int data;
@@ -16,17 +16,16 @@ int is_empty(tree_stack *);
 
 int max(int, int);
 
-tree_stack* new_stack(int);
+tree_stack *new_stack(int);
 
-int push(tree_stack *, node* n);
+int push(tree_stack *, node *);
 
-node* pop(tree_stack *);
+node *pop(tree_stack *);
 
-node* new_node(int, node *, node *);
+node *new_node(int, node *, node *);
 
 int leaves_weight(node *);
 
 int edges(node *);
 
 int height(node *);
-

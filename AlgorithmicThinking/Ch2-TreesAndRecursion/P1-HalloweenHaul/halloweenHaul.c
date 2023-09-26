@@ -3,10 +3,10 @@
  * @date Sep 14, 2023 at 13:28:53
  * @link https://dmoj.ca/problem/dwite12c1p4
  */
-#include<stdio.h>
-#include<stdlib.h>
-#include<math.h>
-#include<string.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #define TEST_CASES 5
 #define LINE_SIZE 256
 
@@ -15,8 +15,7 @@ typedef struct node {
   struct node *left, *right;
 } node;
 
-
-node* new_node(int data, node *left, node *right) {
+node *new_node(int data, node *left, node *right) {
   node *n = malloc(sizeof(node));
   if (!n) {
     fprintf(stderr, "malloc error\n");
@@ -28,26 +27,24 @@ node* new_node(int data, node *left, node *right) {
   return n;
 }
 
-int leaves_weight(node *tree){
+int leaves_weight(node *tree) {
   // sum up the data of all leaf nodes
-  if(!tree->left && !tree->right)
+  if (!tree->left && !tree->right)
     return tree->data;
   return leaves_weight(tree->left) + leaves_weight(tree->right);
 }
 
 int edges(node *tree) {
-  if(!tree->left && !tree->right)
+  if (!tree->left && !tree->right)
     return 0;
-  if(!tree->left && tree->right)
+  if (!tree->left && tree->right)
     return 1 + edges(tree->right);
-  if(tree->left && !tree->right)
+  if (tree->left && !tree->right)
     return 1 + edges(tree->left);
   return 2 + edges(tree->left) + edges(tree->right);
 }
 
-int max(int n1, int n2){
-  return n1>n2? n1:n2;
-}
+int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 
 int height(node *tree) {
   if (!tree || (!tree->left && !tree->right))
@@ -59,14 +56,14 @@ int height(node *tree) {
   return max(height(tree->left), height(tree->right)) + 1;
 }
 
-node *read_tree_helper(char *line, int *pos){
+node *read_tree_helper(char *line, int *pos) {
   node *tree = malloc(sizeof(node));
   if (!tree) {
     fprintf(stderr, "malloc error\n");
     exit(1);
   }
 
-  if(line[*pos]=='('){
+  if (line[*pos] == '(') {
     /* start of a tree */
     (*pos)++; /* skip begin ( */
     tree->left = read_tree_helper(line, pos);
@@ -74,7 +71,7 @@ node *read_tree_helper(char *line, int *pos){
     tree->right = read_tree_helper(line, pos);
     (*pos)++; /* skip end ) */
     return tree;
-  }else{
+  } else {
     /* reads a number, ie this is a house */
     tree->left = NULL;
     tree->right = NULL;
@@ -89,7 +86,7 @@ node *read_tree_helper(char *line, int *pos){
   }
 }
 
-node *read_tree(char *line){
+node *read_tree(char *line) {
   int pos = 0;
   return read_tree_helper(line, &pos);
 }
@@ -103,10 +100,10 @@ char *read_line(int size) {
     fprintf(stderr, "malloc error\n");
     exit(1);
   }
-  while( (ch = getchar()) != EOF && (ch != '\n') ) {
+  while ((ch = getchar()) != EOF && (ch != '\n')) {
     str[len++] = ch;
     /* len inc, check if size is too small */
-    if(len == size) {
+    if (len == size) {
       size = size * 2;
       str = realloc(str, size);
       if (!str) {
@@ -119,13 +116,12 @@ char *read_line(int size) {
   return str;
 }
 
-void solve(node *tree){
+void solve(node *tree) {
   int longest = height(tree);
   int candy = leaves_weight(tree);
   int streets = 2 * edges(tree);
   printf("%d %d\n", streets - longest, candy);
 }
-
 
 int main(void) {
   int i;
@@ -138,4 +134,3 @@ int main(void) {
   }
   return 0;
 }
-

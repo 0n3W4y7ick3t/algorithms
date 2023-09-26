@@ -27,8 +27,7 @@ typedef struct node {
 void *safe_malloc(int size) {
   char *mem = malloc(size);
   if (!mem) {
-    fprintf(stderr, 
-    "malloc error\n");
+    fprintf(stderr, "malloc error\n");
     exit(1);
   }
   return mem;
@@ -83,15 +82,15 @@ int count_descendants(node *p, int depth) {
   return total;
 }
 
-int qcompare(const void* v1, const void* v2){
-  const node* n1 = *(const node**)v1;
-  const node* n2 = *(const node**)v2;
+int qcompare(const void *v1, const void *v2) {
+  const node *n1 = *(const node **)v1;
+  const node *n2 = *(const node **)v2;
   if (n1->score == n2->score)
     return strcmp(n1->name, n2->name);
   return n2->score - n1->score;
 }
 
-void score_tree(node **nodes, int num_nodes, int depth){
+void score_tree(node **nodes, int num_nodes, int depth) {
   int pos;
   for (pos = 0; pos < num_nodes; pos++)
     nodes[pos]->score = count_descendants(nodes[pos], depth);
@@ -119,21 +118,21 @@ void print_nodes(node **nodes, int num_nodes) {
 }
 
 int read_tree(node **nodes, int num_lines) {
-  int n=0;
+  int n = 0;
   /* hash table to look up nodes */
   node *hash_table[1 << NUM_BITS] = {NULL};
   char *parent_name, *child_name;
   node *parent, *child;
   int num_children, hash;
-  for (int i=0; i < num_lines; i++){
+  for (int i = 0; i < num_lines; i++) {
     // 1. read parent
-    parent_name = safe_malloc(MAXNAME +1);
+    parent_name = safe_malloc(MAXNAME + 1);
     scanf("%s", parent_name);
     // 2. read num of children
     scanf("%d", &num_children);
 
     parent = search_hash_table(hash_table, parent_name);
-    if(!parent) {
+    if (!parent) {
       // new parent and store it into hash_table
       parent = new_node(parent_name);
       hash = oaat(parent_name, strlen(parent_name), NUM_BITS);
@@ -141,16 +140,16 @@ int read_tree(node **nodes, int num_lines) {
       hash_table[hash] = parent;
       nodes[n++] = parent;
     }
-    parent -> num_children = num_children;
-    parent->children = safe_malloc(sizeof(node*) * num_children);
+    parent->num_children = num_children;
+    parent->children = safe_malloc(sizeof(node *) * num_children);
 
     // 3. read children
-    for (int j=0; j<num_children; j++){
+    for (int j = 0; j < num_children; j++) {
       child_name = safe_malloc(MAXNAME + 1);
       scanf("%s", child_name);
 
       child = search_hash_table(hash_table, child_name);
-      if(!child){
+      if (!child) {
         // new child and store it into hash_table
         child = new_node(child_name);
         hash = oaat(child_name, strlen(child_name), NUM_BITS);
@@ -163,7 +162,6 @@ int read_tree(node **nodes, int num_lines) {
   }
   return n;
 }
-
 
 int main(void) {
   int trees;
@@ -178,7 +176,7 @@ int main(void) {
     printf("Tree %d:\n", i + 1);
 
     score_tree(nodes, num_nodes, depth);
-    qsort(nodes, num_nodes, sizeof(node*), qcompare);
+    qsort(nodes, num_nodes, sizeof(node *), qcompare);
     print_nodes(nodes, num_nodes);
 
     if (i < trees)
