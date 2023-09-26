@@ -15,12 +15,11 @@ int solve_t(int m, int n, int t) {
   if (t == 0)
     return 0;
 
-  int finish_m;
+  int finish_m, finish_n;
   if (t >= m) /* see if job can be done by doing m in the end */
     finish_m = solve_t(m, n, t - m);
   else
     finish_m = -1; /* no time finishing with m */
-  int finish_n;
   if (t >= n)
     finish_n = solve_t(m, n, t - n);
   else
@@ -32,9 +31,30 @@ int solve_t(int m, int n, int t) {
   return max(finish_m, finish_n) + 1;
 }
 
+void solve(int m, int n, int t) {
+  int result;
+  result = solve_t(m, n, t);
+  if (result != -1)
+    /* t can be finished all by m and n */
+    printf("%d\n", result);
+  else {
+    int rest;
+    rest = t - 1;
+    result = solve_t(m, n, rest);
+    while (result == -1) {
+      t--;
+      result = solve_t(m, n, t);
+    }
+    /* now we found a solution, */
+    /* t is the most minutes can be divided with m and n */
+    printf("%d %d\n", result, t - rest);
+  }
+}
+
 int main(void) {
-  /* dealing inputs */
-  // solve();
+  int m, n, t;
+  while (scanf("%d%d%d", &m, &n, &t) != -1)
+    solve(m, n, t);
   return 0;
 }
 
