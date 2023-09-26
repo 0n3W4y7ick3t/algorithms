@@ -13,4 +13,3 @@ typedef struct node {
 int printTree(node *tree);
 
 #endif /* PRINT_BINARY_TREE */
-
