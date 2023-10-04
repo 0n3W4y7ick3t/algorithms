@@ -67,7 +67,9 @@ double buy(double prices[], int num[], int num_schemes, double unit_price,
   int try;
   double result, result_try;
   result = buy_k(prices, num, num_schemes, unit_price, want, memo);
-  for (try = want + 1; try <= MAX_TRY; try++) {
+  for (try = want + 1; try < MAX_TRY; try++) {
+    /* thanks to z3, my hero */
+    /* ALWAYS CHECK BOUNDRIES!!! */
     result_try = buy_k(prices, num, num_schemes, unit_price, try, memo);
     result = min(result_try, result);
   }
