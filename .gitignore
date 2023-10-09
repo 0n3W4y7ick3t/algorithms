@@ -39,3 +39,6 @@
 
 # valgrind core dumps
 vgcore.*
+
+# debug files
+.gdb_history
