@@ -1,0 +1,7 @@
+key to solving dynamic programming problems:
+find the optimal substructure and overlapping subproblems, find how they are related to each other.
+the mathematical induction is the natural prove of the correctness of these algorithms, dp, memo, recursion, all the same.
+
+
+"Many algorithm textbooks delve deeper into the theory and application of memoization and dynamic programming. My favorite treatment is *Algorithm Design* by Jon Kleinberg and Éva Tardos (2006). "
+take a look at this book when having time.
