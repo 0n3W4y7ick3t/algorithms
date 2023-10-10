@@ -18,6 +18,9 @@ int max(int i, int j) { return i > j ? i : j; }
 int solve(char outcome_i[], char outcome_j[], int scores_i[], int scores_j[],
           int i, int j, int memo[MAX_GAMES + 1][MAX_GAMES + 1]) {
 
+  if (memo[i][j] != -1)
+    return memo[i][j];
+
   if (i == 0 || j == 0) {
     memo[0][0] = 0;
     return 0;

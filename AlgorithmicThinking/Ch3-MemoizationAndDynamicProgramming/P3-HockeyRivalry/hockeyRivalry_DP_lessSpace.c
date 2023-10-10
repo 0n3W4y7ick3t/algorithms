@@ -28,28 +28,29 @@ int solve(char outcome_i[], char outcome_j[], int scores_i[], int scores_j[],
           int num_games) {
 
   int i, j, result_ij;
-  static int dp[MAX_GAMES + 1][MAX_GAMES + 1];
+  int current[MAX_GAMES + 1], previous[MAX_GAMES + 1];
   /* initial base case */
   for (i = 0; i <= MAX_GAMES; i++)
-    dp[i][0] = 0;
-  for (i = 1; i <= MAX_GAMES; i++)
-    dp[0][i] = 0;
+    previous[i] = 0;
 
-  for (i = 1; i <= num_games; i++)
+  for (i = 1; i <= num_games; i++) {
     for (j = 1; j <= num_games; j++) {
       if ((outcome_i[i] == 'W' && outcome_j[j] == 'L' &&
            scores_i[i] > scores_j[j]) ||
           (outcome_i[i] == 'L' && outcome_j[j] == 'W' &&
            scores_i[i] < scores_j[j]))
-        result_ij = dp[i - 1][j - 1] + scores_i[i] + scores_j[j];
+        result_ij = previous[j - 1] + scores_i[i] + scores_j[j];
       else
-        result_ij = dp[i - 1][j - 1];
+        result_ij = previous[j - 1];
       /* result(i,j) is definately bigger than result(i-1,j-1), so we skip it */
-      dp[i][j] = max(result_ij, max(dp[i][j - 1], dp[i - 1][j]));
+      current[j] = max(result_ij, max(previous[j], current[i - 1]));
     }
+    for (j = 0; j <= num_games; j++)
+      previous[j] = current[j];
+  }
 
   /* printf("dp[%d][%d] = %d\n", i, j, dp[i][j]); */
-  return dp[num_games][num_games];
+  return current[num_games];
 }
 
 int main(void) {
