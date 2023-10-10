@@ -7,8 +7,6 @@
  * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1851
  */
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define SIZE 70
 
@@ -28,7 +26,7 @@ int helper(int items, int buskets, int memo[SIZE + 1][SIZE + 1]) {
 }
 
 int solve(int n, int t, int p) {
-  /* put num of purplus items in n, how many ways? */
+  /* put num of surplus items in n, how many ways? */
   int i, j;
   int memo[SIZE + 1][SIZE + 1];
   for (i = 0; i <= SIZE; i++)

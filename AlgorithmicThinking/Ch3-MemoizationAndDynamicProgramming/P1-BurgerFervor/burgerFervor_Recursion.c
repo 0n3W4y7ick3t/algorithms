@@ -6,9 +6,6 @@
  * correct, but TOO SLOW, not feasible in terms of time proficiency
  */
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <wchar.h>
 
 int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 
@@ -58,4 +55,3 @@ int main(void) {
     solve(m, n, t);
   return 0;
 }
-
