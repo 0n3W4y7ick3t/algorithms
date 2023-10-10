@@ -27,7 +27,7 @@ int max(int i, int j) { return i > j ? i : j; }
 int solve(char outcome_i[], char outcome_j[], int scores_i[], int scores_j[],
           int num_games) {
 
-  int dp[MAX_GAMES + 1][MAX_GAMES + 1];
+  static int dp[MAX_GAMES + 1][MAX_GAMES + 1];
   dp[0][0] = 0;
   int i, j, result_ij;
   for (i = 1; i <= num_games; i++)
@@ -51,10 +51,8 @@ int main(void) {
   int num_games, k, result;
   scanf("%d ", &num_games);
 
-  char *outcome_i = (char *)safe_malloc(num_games + 1);
-  char *outcome_j = (char *)safe_malloc(num_games + 1);
-  int *scores_i = (int *)safe_malloc(num_games + 1);
-  int *scores_j = (int *)safe_malloc(num_games + 1);
+  char outcome_i[num_games + 1], outcome_j[num_games + 1];
+  int scores_i[num_games + 1], scores_j[num_games + 1];
   /* begins at index 1 */
   for (k = 1; k <= num_games; k++)
     scanf("%c", &outcome_i[k]);
