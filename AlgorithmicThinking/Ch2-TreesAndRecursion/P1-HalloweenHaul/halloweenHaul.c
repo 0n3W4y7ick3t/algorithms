@@ -3,7 +3,6 @@
  * @date Sep 14, 2023 at 13:28:53
  * @link https://dmoj.ca/problem/dwite12c1p4
  */
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
