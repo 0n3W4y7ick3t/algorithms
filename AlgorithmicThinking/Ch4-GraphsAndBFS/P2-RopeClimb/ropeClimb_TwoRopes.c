@@ -43,42 +43,42 @@ int get_bit(word_t *w, int n) {
 /* bitmap ends */
 
 // jump up
-void jump(int *steps, word_t *itching, int from, int to, Pos *new_pos,
-          int *num_new) {
+void jump(int *steps, word_t *itching, int from, int to, Pos *pos,
+          int *num_pos) {
   if (get_bit(itching, to) == 0 &&
       (steps[2 * to] == -1 || steps[2 * to] > steps[2 * from] + 1)) {
     // safe zone, not discorved or can be updated
     steps[2 * to] = steps[2 * from] + 1; // take one extra move
-    new_pos[(*num_new)++] = (Pos){.height = to, .on_rope = 0};
+    pos[(*num_pos)++] = (Pos){.height = to, .on_rope = 0};
   }
 }
 
 // switch to rope 1
-void move2_rope1(int *steps, int from, Pos *new_pos, int *num_new) {
+void move2_rope1(int *steps, int from, Pos *pos, int *num_pos) {
   if (steps[2 * from + 1] == -1 || steps[2 * from + 1] > steps[2 * from] + 1) {
     //  not discorved or can be updated
     steps[2 * from + 1] = steps[2 * from] + 1; // take one extra move
-    new_pos[(*num_new)++] = (Pos){.height = from, .on_rope = 1};
+    pos[(*num_pos)++] = (Pos){.height = from, .on_rope = 1};
   }
 }
 
 // fall down
-void fall(int *steps, int from, int to, Pos *new_pos, int *num_new) {
+void fall(int *steps, int from, int to, Pos *pos, int *num_pos) {
   if (steps[2 * to + 1] == -1 || steps[2 * to + 1] > steps[2 * from + 1] + 1) {
     // not discorved or can be updated
     steps[2 * to + 1] = steps[2 * from + 1]; // doesnt take any move
-    new_pos[(*num_new)++] = (Pos){.height = to, .on_rope = 1};
+    pos[(*num_pos)++] = (Pos){.height = to, .on_rope = 1};
   }
 }
 
 // switch to rope 0
-void move2_rope0(int *steps, word_t *itching, int from, Pos *new_pos,
-                 int *num_new) {
+void move2_rope0(int *steps, word_t *itching, int from, Pos *pos,
+                 int *num_pos) {
   if (get_bit(itching, from) == 0 &&
       (steps[2 * from] == -1 || steps[2 * from] > steps[2 * from + 1])) {
     // safe zone, not discorved or can be updated
     steps[2 * from] = steps[2 * from + 1]; // doesnt take any move
-    new_pos[(*num_new)++] = (Pos){.height = from, .on_rope = 0};
+    pos[(*num_pos)++] = (Pos){.height = from, .on_rope = 0};
   }
 }
 
@@ -103,14 +103,18 @@ void BFS(int *steps, word_t *itching, int goal, int jumping) {
       from_rope = cur_pos[i].on_rope;
 
       if (from_rope == 0) {
+        // two ways of moving that take one extra move
+        // should be parts of the NEXT search of BFS(cant be find in steps + 1)
         if (from_height + jumping < goal * 2)
           jump(steps, itching, from_height, from_height + jumping, new_pos,
                &num_new_pos);
         move2_rope1(steps, from_height, new_pos, &num_new_pos);
       } else {
+        // dont take any extra moves
+        // should be add to the CURRENT search of BFS(can be find in steps)
         if (from_height - 1 >= 0)
-          fall(steps, from_height, from_height - 1, new_pos, &num_new_pos);
-        move2_rope0(steps, itching, from_height, new_pos, &num_new_pos);
+          fall(steps, from_height, from_height - 1, cur_pos, &num_cur_pos);
+        move2_rope0(steps, itching, from_height, cur_pos, &num_cur_pos);
       }
     }
     num_cur_pos = num_new_pos;
@@ -144,9 +148,12 @@ int main() {
   BFS(steps, itching, h, j);
   // grab result
   result = steps[2 * h];
-  for (i = h; i < h * 2; i++)
+  for (i = h; i < h * 2; i++) {
     if (steps[2 * i] != -1)
       result = result < steps[2 * i] ? result : steps[2 * i];
+    // printf("height:%d [%d] [%d]\n", i, steps[2 * i], steps[2 * i + 1]);
+  }
+
   printf("%d\n", result);
   free(itching);
   free(steps);
