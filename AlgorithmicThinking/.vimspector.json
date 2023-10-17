@@ -1,0 +1,13 @@
+{
+  "configurations": {
+    "debug c/c++": {
+      "adapter": "vscode-cpptools",
+      "filetypes":["c","cpp"],
+      "configuration": {
+        "request": "launch",
+        "program": "${fileBasenameNoExtension}",
+        "args": [ "<", "inp" ]
+      }
+    }
+  }
+}
