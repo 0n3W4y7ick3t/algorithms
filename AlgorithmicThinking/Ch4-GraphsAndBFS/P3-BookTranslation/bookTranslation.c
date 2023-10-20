@@ -22,7 +22,7 @@ typedef struct Edge {
 typedef int moves[MAX_LANS];
 typedef int costs[MAX_LANS];
 
-void check_alloc(void *ptr) {
+static inline void not_null(void *ptr) {
   if (!ptr) {
     fprintf(stderr, "malloc error\n");
     exit(1);
@@ -34,7 +34,7 @@ char *read_word(size_t size) {
   int ch;
   int len = 0;
   str = malloc(size);
-  check_alloc(str);
+  not_null(str);
   while ((ch = getchar()) != EOF && (ch != '\n') && (ch != ' ') &&
          (ch != '\t')) {
     str[len++] = ch;
@@ -42,19 +42,19 @@ char *read_word(size_t size) {
     if (len == size) {
       size = size * 2;
       str = realloc(str, size);
-      check_alloc(str);
+      not_null(str);
     }
   }
   str[len] = '\0';
   return str;
 }
 
-/* if not found, return the next index where we can insert it */
+/* treat all langs cant be found as an imaginary node[num_targets + 1],
+  it will not be processed anyway */
 int find_lang(char **langs, char *lang) {
   int i = 0;
   while (strcmp(langs[i], lang) != 0)
     i++;
-  langs[i] = lang;
   return i;
 }
 
@@ -66,13 +66,13 @@ void add_pos(int from, int to, int *new_pos, int *num_new_pos,
   }
 }
 
-void find_distances(Edge *adj_list[], int num_target, costs min_costs) {
+void BFS(Edge *adj_list[], int num_target, costs min_costs) {
   static moves min_moves;
   int *cur_pos = malloc(sizeof(int) * MAX_LANS);
   int *new_pos = malloc(sizeof(int) * MAX_LANS);
   int *tmp; // for switching
   int num_cur_pos, num_new_pos;
-  int i, from_lang, to_lang, best;
+  int i, from_lang, new_lang, best;
   Edge *e;
   for (i = 0; i < num_target; i++) {
     min_costs[i] = -1;
@@ -97,20 +97,44 @@ void find_distances(Edge *adj_list[], int num_target, costs min_costs) {
     }
     /* finished this round of BFS */
 
-    /* calculate the min cost it takes to the new positions */
+    /* calculate the min cost it takes from each posible node in current search
+       to the new positions */
     for (i = 0; i < num_new_pos; i++) {
       best = -1;
-      to_lang = new_pos[i];
+      new_lang = new_pos[i];
+      e = adj_list[new_lang];
+      /* find all node can be access from to_lang
+        (we store two edges for one bi-directed connection) */
+      while (e) {
+        /* e->lang2 is one step before to_lang */
+        if (min_moves[e->lang2] + 1 == min_moves[new_lang] &&
+            (best == -1 || best > e->cost))
+          best = e->cost;
+        e = e->next;
+      }
+      min_costs[new_lang] = best;
     }
 
+    num_cur_pos = num_new_pos;
     tmp = cur_pos;
     cur_pos = new_pos;
     new_pos = tmp;
   }
 }
 
+void solve(int num_targets, costs min_costs) {
+  int i, total = 0;
+  for (i = 1; i < num_targets; i++)
+    if (min_costs[i] == -1) {
+      printf("Impossible\n");
+      return;
+    } else
+      total += min_costs[i];
+  printf("%d\n", total);
+}
+
 int main(void) {
-  int num_target, num_trans, i, j, cost, lang1_index, lang2_index, result;
+  int num_target, num_trans, i, j, cost, lang1_index, lang2_index;
   /* all languages */
   static char *langs[MAX_LANS] = {NULL};
   /* adjacency list for storing edges list */
@@ -119,28 +143,28 @@ int main(void) {
   char *lang1, *lang2;
   Edge *edge;
 
-  scanf("%d%d", &num_target, &num_trans);
+  scanf("%d%d\n", &num_target, &num_trans);
   langs[0] = "English";
-  for (i = 1; i < num_target; i++)
+  for (i = 1; i <= num_target; i++)
     langs[i] = read_word(WORD_LEN);
 
   /* read edges */
   for (j = 0; j < num_trans; j++) {
     lang1 = read_word(WORD_LEN);
     lang2 = read_word(WORD_LEN);
-    scanf("%d", &cost);
+    scanf("%d\n", &cost);
     lang1_index = find_lang(langs, lang1);
     lang2_index = find_lang(langs, lang2);
 
     edge = malloc(sizeof(Edge));
-    check_alloc(edge);
+    not_null(edge);
     edge->lang2 = lang2_index;
     edge->cost = cost;
     edge->next = adj_list[lang1_index];
     adj_list[lang1_index] = edge;
 
     edge = malloc(sizeof(Edge));
-    check_alloc(edge);
+    not_null(edge);
     edge->lang2 = lang1_index;
     edge->cost = cost;
     edge->next = adj_list[lang2_index];
@@ -149,6 +173,7 @@ int main(void) {
 
   /* when the edge for each tartget languaes is min,
    only we can have a min edges for all of them */
-  find_distances(adj_list, num_target + 1, min_costs);
+  BFS(adj_list, num_target + 1, min_costs);
+  solve(num_target + 1, min_costs);
   return 0;
 }
