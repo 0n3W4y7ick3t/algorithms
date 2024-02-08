@@ -1,4 +1,4 @@
-#include<string.h>
+#include <string.h>
 
 typedef struct node {
   char *name;
