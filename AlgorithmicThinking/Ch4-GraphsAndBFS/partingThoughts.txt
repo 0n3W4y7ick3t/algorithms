@@ -1,0 +1,4 @@
+always process \n when reading inputs, scanf("%d ") or scanf("%d\n") reads it out from stdin and throws it away
+
+set the number of new positions found in this round of BFS in the right place: when the new round begins!
+remember to set the number of current postions before starting a new round of BFS.
