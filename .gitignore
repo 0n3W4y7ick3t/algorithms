@@ -35,3 +35,9 @@
 *.exe
 *.out
 *.app
+
+# valgrind core dumps
+vgcore.*
+
+# vscode
+.vscode
