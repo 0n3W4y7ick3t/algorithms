@@ -7,8 +7,7 @@
  * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
  */
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #define MAX_SCHEMES 20
 #define MAX_WANT 100
 #define MAX_TRY 200

@@ -6,9 +6,6 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <wchar.h>
 
 #define MAXMINUTES 10000
 
@@ -82,4 +79,3 @@ int main(void) {
     solve(m, n, t);
   return 0;
 }
-
