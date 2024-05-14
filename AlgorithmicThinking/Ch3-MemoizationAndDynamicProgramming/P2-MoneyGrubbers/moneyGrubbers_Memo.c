@@ -12,7 +12,7 @@
 #define MAX_WANT 100
 #define MAX_TRY 200
 
-int read_number(int *number) {
+int read_number(int* number) {
   /* reads in "23 134 15", one number a time, into arg
     return 1 when there are more numbers left
     return 0 when there is none left */

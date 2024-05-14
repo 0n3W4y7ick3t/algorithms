@@ -12,12 +12,12 @@ struct Option {
   short value;
 };
 
-std::ostream &operator<<(std::ostream &os, const Option &opt) {
+std::ostream& operator<<(std::ostream& os, const Option& opt) {
   return os << std::format("{:10} takes {:-2}, values {:-2}", opt.name + ":",
                            opt.space, opt.value);
 }
 
-std::istream &operator>>(std::istream &is, Option &opt) {
+std::istream& operator>>(std::istream& is, Option& opt) {
   std::string name;
   short size, value;
   is >> name >> size >> value;
@@ -40,7 +40,7 @@ struct Result {
   int value;
 };
 
-Result dp(const std::vector<Option> &options, const int V) {
+Result dp(const std::vector<Option>& options, const int V) {
   Result memo[options.size() + 1][V + 1];
   // o-1 is the o-th opt in options
   // s is the current pack_size

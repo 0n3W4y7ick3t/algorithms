@@ -12,7 +12,7 @@
 #include <utility>
 #include <vector>
 
-typedef std::vector<std::vector<float>> Graph;
+using Graph = std::vector<std::vector<float>>;
 
 class Costs {
   std::map<size_t, float> costs;
@@ -41,7 +41,7 @@ public:
 
   void show() {
     std::cout << "[*] costs for all nodes: ";
-    for (const auto &x : costs) {
+    for (const auto& x : costs) {
       std::cout << std::format("[{}]:{} ", x.first, x.second);
     }
     std::cout << "\n\n";
@@ -57,7 +57,7 @@ public:
                         });
     size_t min_node = 0;
     auto min_cost = std::numeric_limits<float>::max();
-    for (const auto &x : not_finished) {
+    for (const auto& x : not_finished) {
       if (costs[x] < min_cost) {
         min_cost = costs[x];
         min_node = x;
@@ -79,7 +79,7 @@ Graph read_graph() {
     edges.emplace_back(from, to, weight);
   }
   auto G = std::vector(max_node + 1, std::vector<float>(max_node + 1, 0));
-  for (auto &x : edges) {
+  for (auto& x : edges) {
     from = std::get<0>(x);
     to = std::get<1>(x);
     weight = std::get<2>(x);
@@ -102,13 +102,13 @@ std::pair<size_t, size_t> read_start_end() {
 }
 
 // returns paths, length
-std::pair<std::vector<size_t>, double> dijkstra(const Graph &G, size_t start,
+std::pair<std::vector<size_t>, double> dijkstra(const Graph& G, size_t start,
                                                 size_t end) {
   size_t size = G.size();
   if (start > size - 1 || end > size - 1) {
     std::cerr << std::format(
-        "out of boundry(biggest node in graph: {}), node start: {}, end: {}\n", size - 1,
-        start, end);
+        "out of boundry(biggest node in graph: {}), node start: {}, end: {}\n",
+        size - 1, start, end);
   }
   auto parents = std::vector<size_t>(size, -1); // parents[i]: parent of node i
   Costs costs;
@@ -125,8 +125,8 @@ std::pair<std::vector<size_t>, double> dijkstra(const Graph &G, size_t start,
         // otherwise there is no edge.
         cost_new = cost_nv + cost_step;
         cost_old = costs.get(i);
-        std::cout << std::format("to ({}), new cost {}, old_cost {}\n",
-                                 nv, i, cost_new, cost_old);
+        std::cout << std::format("to ({}), new cost {}, old_cost {}\n", nv, i,
+                                 cost_new, cost_old);
         if (cost_new < cost_old) {
           // found a shorter path from n to i
           costs.update(i, cost_new);
@@ -149,7 +149,7 @@ std::pair<std::vector<size_t>, double> dijkstra(const Graph &G, size_t start,
   return std::pair(std::move(path), len);
 }
 
-const void print_path(const std::vector<size_t> &path) {
+const void print_path(const std::vector<size_t>& path) {
   std::cout << path[0];
   for (size_t i = 1; i < path.size(); i++) {
     std::cout << " -> " << path[i];

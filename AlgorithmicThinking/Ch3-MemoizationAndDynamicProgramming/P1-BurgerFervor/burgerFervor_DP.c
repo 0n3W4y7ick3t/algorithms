@@ -14,7 +14,7 @@ int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 void solve(int m, int n, int t) {
   int sub;
   int finish_m, finish_n;
-  int *dp = malloc(sizeof(int) * (t + 1));
+  int* dp = malloc(sizeof(int) * (t + 1));
   dp[0] = 0; /* no need to care about others */
 
   for (sub = 1; sub <= t; sub++) {

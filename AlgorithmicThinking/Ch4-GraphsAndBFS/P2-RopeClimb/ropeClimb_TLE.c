@@ -18,18 +18,18 @@ enum { BIT_PER_WORD = sizeof(word_t) * CHAR_BIT };
 #define WORD_OFFSET(i) ((i) / BIT_PER_WORD)
 #define BIT_OFFSET(i) ((i) % BIT_PER_WORD)
 
-void set_bit(word_t *w, int n) { w[WORD_OFFSET(n)] |= (1 << BIT_OFFSET(n)); }
+void set_bit(word_t* w, int n) { w[WORD_OFFSET(n)] |= (1 << BIT_OFFSET(n)); }
 
-void clear_bit(word_t *w, int n) { w[WORD_OFFSET(n)] &= ~(1 << BIT_OFFSET(n)); }
+void clear_bit(word_t* w, int n) { w[WORD_OFFSET(n)] &= ~(1 << BIT_OFFSET(n)); }
 
-int get_bit(word_t *w, int n) {
+int get_bit(word_t* w, int n) {
   word_t bit = w[WORD_OFFSET(n)] & (1 << BIT_OFFSET(n));
   return bit != 0;
 }
 /* bitmap ends */
 
-void visit(int *steps, word_t *itching, int from, int to, int *new_visited,
-           int *num_new, int *cnt) {
+void visit(int* steps, word_t* itching, int from, int to, int* new_visited,
+           int* num_new, int* cnt) {
   (*cnt)++;
   if (steps[to] == -1 && get_bit(itching, to) == 0) {
     /* not discoverd safe zone */
@@ -38,16 +38,16 @@ void visit(int *steps, word_t *itching, int from, int to, int *new_visited,
   }
 }
 
-int solve(word_t *itching, int goal, int jump) {
+int solve(word_t* itching, int goal, int jump) {
   size_t bytes;
   bytes = sizeof(int) * (goal + jump);
-  int *steps = malloc(bytes);
+  int* steps = malloc(bytes);
   // a diry trick because -1(32bit) is all 1, -1(8bit) is also all 1
   memset(steps, -1, bytes);
 
-  int *cur_pos = malloc(bytes);
-  int *new_pos = malloc(bytes);
-  int *tmp;
+  int* cur_pos = malloc(bytes);
+  int* new_pos = malloc(bytes);
+  int* tmp;
   int num_cur_pos, num_new_pos;
 
   /* init BFS search */
@@ -100,7 +100,7 @@ int main() {
   scanf("%d%d%d", &h, &j, &n);
   /* use a bitmap to store the itching zones, 1 for itching */
   int itches = (h + j) / BIT_PER_WORD + 1;
-  word_t *itching = malloc(sizeof(word_t) * itches);
+  word_t* itching = malloc(sizeof(word_t) * itches);
   memset(itching, 0, sizeof(word_t) * itches);
 
   int a, b, c;

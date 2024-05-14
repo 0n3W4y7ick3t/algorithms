@@ -19,7 +19,7 @@ typedef int board[BORAD_SIZE][BORAD_SIZE];
 typedef Pos visited[BORAD_SIZE * BORAD_SIZE];
 
 void visit_p(board B, int rows, int cols, int from_row, int from_col,
-             int to_row, int to_col, int *num_new_visited,
+             int to_row, int to_col, int* num_new_visited,
              visited new_visited) {
   if (to_row >= 1 && to_row <= rows && to_col >= 1 && to_col <= cols &&
       B[to_row][to_col] != -1) {
@@ -40,7 +40,7 @@ void print_board(board B, int rows, int cols) {
   }
 }
 
-void BFS(board B, int rows, int cols, Pos *kp) {
+void BFS(board B, int rows, int cols, Pos* kp) {
   static visited cur_visited, new_visited;
   int num_cur, num_new;
   int i, j, from_row, from_col;
@@ -87,8 +87,8 @@ int min(int a, int b) { return a < b ? a : b; }
 
 int main(void) {
   int rounds, rows, cols, i, j, k;
-  Pos *kp = malloc(sizeof(Pos));
-  Pos *pp = malloc(sizeof(Pos));
+  Pos* kp = malloc(sizeof(Pos));
+  Pos* pp = malloc(sizeof(Pos));
   scanf("%d", &rounds);
   static board B;
   for (k = 0; k < rounds; k++) {

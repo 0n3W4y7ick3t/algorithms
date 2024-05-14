@@ -16,21 +16,21 @@
    so we can use an adjacency list */
 typedef struct Edge {
   int cost, lang2; /* lang1 is the index of this link list */
-  struct Edge *next;
+  struct Edge* next;
 } Edge;
 
 typedef int moves[MAX_LANS];
 typedef int costs[MAX_LANS];
 
-static inline void not_null(void *ptr) {
+static inline void not_null(void* ptr) {
   if (!ptr) {
     fprintf(stderr, "malloc error\n");
     exit(1);
   }
 }
 
-char *read_word(size_t size) {
-  char *str;
+char* read_word(size_t size) {
+  char* str;
   int ch;
   int len = 0;
   str = malloc(size);
@@ -51,14 +51,14 @@ char *read_word(size_t size) {
 
 /* treat all langs cant be found as an imaginary node[num_targets + 1],
   it will not be processed anyway */
-int find_lang(char **langs, char *lang) {
+int find_lang(char** langs, char* lang) {
   int i = 0;
   while (strcmp(langs[i], lang) != 0)
     i++;
   return i;
 }
 
-void add_pos(int from, int to, int *new_pos, int *num_new_pos,
+void add_pos(int from, int to, int* new_pos, int* num_new_pos,
              moves min_moves) {
   if (min_moves[to] == -1) {
     min_moves[to] = min_moves[from] + 1;
@@ -66,14 +66,14 @@ void add_pos(int from, int to, int *new_pos, int *num_new_pos,
   }
 }
 
-void BFS(Edge *adj_list[], int num_target, costs min_costs) {
+void BFS(Edge* adj_list[], int num_target, costs min_costs) {
   static moves min_moves;
-  int *cur_pos = malloc(sizeof(int) * MAX_LANS);
-  int *new_pos = malloc(sizeof(int) * MAX_LANS);
-  int *tmp; // for switching
+  int* cur_pos = malloc(sizeof(int) * MAX_LANS);
+  int* new_pos = malloc(sizeof(int) * MAX_LANS);
+  int* tmp; // for switching
   int num_cur_pos, num_new_pos;
   int i, from_lang, new_lang, best;
-  Edge *e;
+  Edge* e;
   for (i = 0; i < num_target; i++) {
     min_costs[i] = -1;
     min_moves[i] = -1;
@@ -136,12 +136,12 @@ void solve(int num_targets, costs min_costs) {
 int main(void) {
   int num_target, num_trans, i, j, cost, lang1_index, lang2_index;
   /* all languages */
-  static char *langs[MAX_LANS] = {NULL};
+  static char* langs[MAX_LANS] = {NULL};
   /* adjacency list for storing edges list */
-  static Edge *adj_list[MAX_LANS] = {NULL};
+  static Edge* adj_list[MAX_LANS] = {NULL};
   costs min_costs;
   char *lang1, *lang2;
-  Edge *edge;
+  Edge* edge;
 
   scanf("%d%d\n", &num_target, &num_trans);
   langs[0] = "English";

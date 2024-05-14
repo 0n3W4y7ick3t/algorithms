@@ -30,4 +30,3 @@ int main() {
   solve(lines, m, n);
   return 0;
 }
-

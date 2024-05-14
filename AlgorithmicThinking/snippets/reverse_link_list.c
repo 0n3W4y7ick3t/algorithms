@@ -3,13 +3,13 @@
 
 typedef struct Node {
   int v;
-  struct Node *next;
+  struct Node* next;
 } Node;
 
-Node *reverse(Node *head) {
-  Node *prev = NULL;
-  Node *cur = head;
-  Node *next = NULL;
+Node* reverse(Node* head) {
+  Node* prev = NULL;
+  Node* cur = head;
+  Node* next = NULL;
   while (cur) {
     next = cur->next;
     cur->next = prev;
@@ -19,8 +19,8 @@ Node *reverse(Node *head) {
   return prev;
 }
 
-void print_list(Node *head) {
-  Node *n;
+void print_list(Node* head) {
+  Node* n;
   n = head;
   while (n) {
     printf("%d\n", n->v);
@@ -28,15 +28,15 @@ void print_list(Node *head) {
   }
 }
 
-void insert(Node **head_ref, int i) {
-  Node *n = malloc(sizeof(Node));
+void insert(Node** head_ref, int i) {
+  Node* n = malloc(sizeof(Node));
   n->v = i;
   n->next = (*head_ref);
   (*head_ref) = n;
 }
 
 int main() {
-  Node *n = malloc(sizeof(Node));
+  Node* n = malloc(sizeof(Node));
   n->v = 1;
   insert(&n, 2);
   insert(&n, 3);

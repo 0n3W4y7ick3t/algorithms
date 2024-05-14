@@ -11,7 +11,7 @@
 
 int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 
-int solve_t(int m, int n, int t, int *memo) {
+int solve_t(int m, int n, int t, int* memo) {
   /* printf("solving: %d\n", t); */
   if (memo[t] != 0)
     return memo[t];

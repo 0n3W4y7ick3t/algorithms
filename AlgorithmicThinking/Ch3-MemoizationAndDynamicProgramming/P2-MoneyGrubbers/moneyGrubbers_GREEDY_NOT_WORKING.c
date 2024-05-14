@@ -16,7 +16,7 @@ typedef struct {
   float avgPrice;
 } scheme;
 
-int got(scheme *schemes, int schemes_num) {
+int got(scheme* schemes, int schemes_num) {
   int i, got;
   got = 0;
   for (i = 0; i <= schemes_num; i++)
@@ -24,7 +24,7 @@ int got(scheme *schemes, int schemes_num) {
   return got;
 }
 
-void optimize(scheme *scs, int scs_n, int costy, int cheap, int surplus) {
+void optimize(scheme* scs, int scs_n, int costy, int cheap, int surplus) {
   int better_buy;
   better_buy = scs[costy].bought * scs[costy].quantity / scs[cheap].quantity;
   if (better_buy * scs[cheap].quantity >=
@@ -35,7 +35,7 @@ void optimize(scheme *scs, int scs_n, int costy, int cheap, int surplus) {
   }
 }
 
-void buy(scheme *schemes, int schemes_num, int wanted) {
+void buy(scheme* schemes, int schemes_num, int wanted) {
   int i, j, next, surplus, try;
 
   /* try to optimize schemes using schemes[i] */
@@ -55,7 +55,7 @@ void buy(scheme *schemes, int schemes_num, int wanted) {
     }
 }
 
-float costs(scheme *schemes, int schemes_num) {
+float costs(scheme* schemes, int schemes_num) {
   int i;
   float cost;
   cost = 0;
@@ -64,7 +64,7 @@ float costs(scheme *schemes, int schemes_num) {
   return cost;
 }
 
-int cmp(scheme *a, scheme *b) {
+int cmp(scheme* a, scheme* b) {
   if (a->avgPrice > b->avgPrice)
     return -1;
   else if (a->avgPrice < b->avgPrice)
@@ -94,7 +94,7 @@ int main(void) {
 
     /* sort with avgPrice */
     qsort(schemes, schemes_num + 1, sizeof(scheme),
-          (int (*)(const void *, const void *))cmp);
+          (int (*)(const void*, const void*))cmp);
 
     int wanted;
     while (scanf("%d", &wanted) != -1) {

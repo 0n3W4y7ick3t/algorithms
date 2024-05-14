@@ -16,17 +16,17 @@
 typedef struct Pass {
   int to;
   int weight;
-  struct Pass *next;
+  struct Pass* next;
 } Pass;
 
-static inline void not_null(void *ptr) {
+static inline void not_null(void* ptr) {
   if (!ptr) {
     fprintf(stderr, "err, pointer is null!\n");
     exit(1);
   }
 }
 
-void solve(Pass *adj_cells[], int num_cells, int from, int timer) {
+void solve(Pass* adj_cells[], int num_cells, int from, int timer) {
   int total = 0;
   static bool done[MAX_CELLS];
   static int min_times[MAX_CELLS];
@@ -37,7 +37,7 @@ void solve(Pass *adj_cells[], int num_cells, int from, int timer) {
   bool found;
   int i, j;
   int min_time, min_time_index, old_time;
-  Pass *p;
+  Pass* p;
   min_times[from] = 0;
 
   for (i = 0; i < num_cells; i++) {
@@ -77,16 +77,16 @@ void solve(Pass *adj_cells[], int num_cells, int from, int timer) {
 }
 
 int main(void) {
-  int *p;
+  int* p;
   not_null(NULL);
   int cases, num_cells, num_pass, exit, timer, i, j, from, to, weight;
-  static Pass *adj_cells[MAX_CELLS];
+  static Pass* adj_cells[MAX_CELLS];
   scanf("%d", &cases);
   for (i = 0; i < cases; i++) {
     scanf("%d%d%d%d", &num_cells, &exit, &timer, &num_pass);
     for (j = 0; j < num_pass; j++) {
       scanf("%d%d%d", &from, &to, &weight);
-      Pass *p = malloc(sizeof(Pass));
+      Pass* p = malloc(sizeof(Pass));
       not_null(p);
       /* construct the graph reversely,
         so we can use exit as start cell, do one sinle Dijkstra */

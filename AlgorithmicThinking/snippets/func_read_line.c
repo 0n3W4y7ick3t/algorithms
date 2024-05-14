@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-char *read_line(int size) {
-  char *str;
+char* read_line(int size) {
+  char* str;
   int ch;
   int len = 0;
   str = malloc(size);

@@ -8,18 +8,8 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 
 #define MAX_GAMES 1000
-
-void *safe_malloc(int size) {
-  char *mem = malloc(size);
-  if (!mem) {
-    fprintf(stderr, "malloc error\n");
-    exit(1);
-  }
-  return mem;
-}
 
 int max(int i, int j) { return i > j ? i : j; }
 

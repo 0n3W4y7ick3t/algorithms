@@ -10,7 +10,7 @@
 
 int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 
-int height(node *tree) {
+int height(node* tree) {
   if (!tree)
     return 0;
   return max(height(tree->left), height(tree->right)) + 1;
@@ -18,9 +18,9 @@ int height(node *tree) {
 
 int width(int height) { return pow(2.0, height + 1e-10) - 1; }
 
-int *pof2DArr(int *M, int i, int j) { return &M[i * j + j]; }
+int* pof2DArr(int* M, int i, int j) { return &M[i * j + j]; }
 
-int initPrint(int *M, node *n, int row, int col, int height) {
+int initPrint(int* M, node* n, int row, int col, int height) {
   if (!n)
     return 0;
   *pof2DArr(M, row, col) = n->data;
@@ -32,12 +32,12 @@ int initPrint(int *M, node *n, int row, int col, int height) {
 }
 
 /* this is the func to print the binary tree */
-int printTree(node *tree) {
+int printTree(node* tree) {
   int h = height(tree);
   int w = width(h);
 
   /* the matrix to be print out */
-  int *M = malloc((h * w) * sizeof(int));
+  int* M = malloc((h * w) * sizeof(int));
   if (!M) {
     fprintf(stderr, "malloc error\n");
     exit(1);

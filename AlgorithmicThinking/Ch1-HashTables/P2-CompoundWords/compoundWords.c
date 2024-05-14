@@ -15,11 +15,11 @@
 #define hashmask(n) (hashsize(n) - 1) /* 100 -> 011 */
 
 typedef struct word_node {
-  char **word;
-  struct word_node *next;
+  char** word;
+  struct word_node* next;
 } word_node;
 
-unsigned long oaat(char *key, unsigned long len, unsigned long bits) {
+unsigned long oaat(char* key, unsigned long len, unsigned long bits) {
   /* the hash function */
   unsigned long hash, i;
   for (hash = 0, i = 0; i < len; i++) {
@@ -34,9 +34,9 @@ unsigned long oaat(char *key, unsigned long len, unsigned long bits) {
   return hash & hashmask(bits);
 }
 
-int in_hash_table(word_node *hash_table[], char *find, unsigned find_len) {
+int in_hash_table(word_node* hash_table[], char* find, unsigned find_len) {
   unsigned word_hash;
-  word_node *wordptr;
+  word_node* wordptr;
   word_hash = oaat(find, find_len, NUM_BITS);
   wordptr = hash_table[word_hash];
   while (wordptr) {
@@ -49,8 +49,8 @@ int in_hash_table(word_node *hash_table[], char *find, unsigned find_len) {
   return 0;
 }
 
-char *read_line(int size) {
-  char *str;
+char* read_line(int size) {
+  char* str;
   int ch;
   int len = 0;
   str = malloc(size);
@@ -74,7 +74,7 @@ char *read_line(int size) {
   return str;
 }
 
-void solve(char *words[], word_node *hash_table[], int total_words) {
+void solve(char* words[], word_node* hash_table[], int total_words) {
   int i, j;
   for (i = 0; i < total_words; i++) {
     /* split every word, see if both parts can be found in hash_table */
@@ -94,11 +94,11 @@ void solve(char *words[], word_node *hash_table[], int total_words) {
 }
 
 int main(void) {
-  static char *words[1 << NUM_BITS] = {NULL};
-  static word_node *hash_table[1 << NUM_BITS] = {NULL};
+  static char* words[1 << NUM_BITS] = {NULL};
+  static word_node* hash_table[1 << NUM_BITS] = {NULL};
   int total_words = 0;
-  char *word;
-  word_node *wordptr;
+  char* word;
+  word_node* wordptr;
   unsigned length, word_hash;
 
   word = read_line(WORD_LENGTH);

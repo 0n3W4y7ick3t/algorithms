@@ -14,8 +14,8 @@ typedef struct node {
   struct node *left, *right;
 } node;
 
-node *new_node(int data, node *left, node *right) {
-  node *n = malloc(sizeof(node));
+node* new_node(int data, node* left, node* right) {
+  node* n = malloc(sizeof(node));
   if (!n) {
     fprintf(stderr, "malloc error\n");
     exit(1);
@@ -26,14 +26,14 @@ node *new_node(int data, node *left, node *right) {
   return n;
 }
 
-int leaves_weight(node *tree) {
+int leaves_weight(node* tree) {
   // sum up the data of all leaf nodes
   if (!tree->left && !tree->right)
     return tree->data;
   return leaves_weight(tree->left) + leaves_weight(tree->right);
 }
 
-int edges(node *tree) {
+int edges(node* tree) {
   if (!tree->left && !tree->right)
     return 0;
   if (!tree->left && tree->right)
@@ -45,7 +45,7 @@ int edges(node *tree) {
 
 int max(int n1, int n2) { return n1 > n2 ? n1 : n2; }
 
-int height(node *tree) {
+int height(node* tree) {
   if (!tree || (!tree->left && !tree->right))
     return 0;
   if (tree->left && !tree->right)
@@ -55,8 +55,8 @@ int height(node *tree) {
   return max(height(tree->left), height(tree->right)) + 1;
 }
 
-node *read_tree_helper(char *line, int *pos) {
-  node *tree = malloc(sizeof(node));
+node* read_tree_helper(char* line, int* pos) {
+  node* tree = malloc(sizeof(node));
   if (!tree) {
     fprintf(stderr, "malloc error\n");
     exit(1);
@@ -85,13 +85,13 @@ node *read_tree_helper(char *line, int *pos) {
   }
 }
 
-node *read_tree(char *line) {
+node* read_tree(char* line) {
   int pos = 0;
   return read_tree_helper(line, &pos);
 }
 
-char *read_line(int size) {
-  char *str;
+char* read_line(int size) {
+  char* str;
   int ch;
   int len = 0;
   str = malloc(size);
@@ -115,7 +115,7 @@ char *read_line(int size) {
   return str;
 }
 
-void solve(node *tree) {
+void solve(node* tree) {
   int longest = height(tree);
   int candy = leaves_weight(tree);
   int streets = 2 * edges(tree);
@@ -124,8 +124,8 @@ void solve(node *tree) {
 
 int main(void) {
   int i;
-  char *line;
-  node *tree;
+  char* line;
+  node* tree;
   for (i = 0; i < TEST_CASES; i++) {
     line = read_line(LINE_SIZE);
     tree = read_tree(line);

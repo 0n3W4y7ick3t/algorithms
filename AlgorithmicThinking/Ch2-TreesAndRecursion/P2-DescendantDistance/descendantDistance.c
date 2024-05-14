@@ -17,31 +17,22 @@
 #define hashmask(n) (hashsize(n) - 1) /* 100 -> 011 */
 
 typedef struct node {
-  char *name;
-  struct node **children;
-  struct node *next; // used in hash table
+  char* name;
+  struct node** children;
+  struct node* next; // used in hash table
   int num_children;
   int score; /* num of decendants ar certain depth */
 } node;
 
-void *safe_malloc(int size) {
-  char *mem = malloc(size);
-  if (!mem) {
-    fprintf(stderr, "malloc error\n");
-    exit(1);
-  }
-  return mem;
-}
-
-node *new_node(char *name) {
-  node *n = safe_malloc(sizeof(node));
+node* new_node(char* name) {
+  node* n = malloc(sizeof(node));
   n->name = name;
   n->num_children = 0;
   n->score = 0;
   return n;
 }
 
-unsigned long oaat(char *key, unsigned long len, unsigned long bits) {
+unsigned long oaat(char* key, unsigned long len, unsigned long bits) {
   /* the hash function */
   unsigned long hash, i;
   for (hash = 0, i = 0; i < len; i++) {
@@ -56,10 +47,10 @@ unsigned long oaat(char *key, unsigned long len, unsigned long bits) {
   return hash & hashmask(bits);
 }
 
-node *search_hash_table(node *hash_table[], char *find) {
+node* search_hash_table(node* hash_table[], char* find) {
   int find_len = strlen(find);
   unsigned word_hash = oaat(find, find_len, NUM_BITS);
-  node *wordptr = hash_table[word_hash];
+  node* wordptr = hash_table[word_hash];
   while (wordptr) {
     if (strlen(wordptr->name) == find_len &&
         strncmp((wordptr->name), find, find_len) == 0)
@@ -70,7 +61,7 @@ node *search_hash_table(node *hash_table[], char *find) {
   return NULL;
 }
 
-int count_descendants(node *p, int depth) {
+int count_descendants(node* p, int depth) {
   // set p->score at depth
   int total = 0;
   if (depth == 1)
@@ -82,21 +73,21 @@ int count_descendants(node *p, int depth) {
   return total;
 }
 
-int qcompare(const void *v1, const void *v2) {
-  const node *n1 = *(const node **)v1;
-  const node *n2 = *(const node **)v2;
+int qcompare(const void* v1, const void* v2) {
+  const node* n1 = *(const node**)v1;
+  const node* n2 = *(const node**)v2;
   if (n1->score == n2->score)
     return strcmp(n1->name, n2->name);
   return n2->score - n1->score;
 }
 
-void score_tree(node **nodes, int num_nodes, int depth) {
+void score_tree(node** nodes, int num_nodes, int depth) {
   int pos;
   for (pos = 0; pos < num_nodes; pos++)
     nodes[pos]->score = count_descendants(nodes[pos], depth);
 }
 
-void print_nodes(node **nodes, int num_nodes) {
+void print_nodes(node** nodes, int num_nodes) {
 
   int pos = 0;
   int last_score = nodes[pos]->score, cur_score, total = 0;
@@ -117,16 +108,16 @@ void print_nodes(node **nodes, int num_nodes) {
   }
 }
 
-int read_tree(node **nodes, int num_lines) {
+int read_tree(node** nodes, int num_lines) {
   int n = 0;
   /* hash table to look up nodes */
-  node *hash_table[1 << NUM_BITS] = {NULL};
+  node* hash_table[1 << NUM_BITS] = {NULL};
   char *parent_name, *child_name;
   node *parent, *child;
   int num_children, hash;
   for (int i = 0; i < num_lines; i++) {
     // 1. read parent
-    parent_name = safe_malloc(MAXNAME + 1);
+    parent_name = malloc(MAXNAME + 1);
     scanf("%s", parent_name);
     // 2. read num of children
     scanf("%d", &num_children);
@@ -141,11 +132,11 @@ int read_tree(node **nodes, int num_lines) {
       nodes[n++] = parent;
     }
     parent->num_children = num_children;
-    parent->children = safe_malloc(sizeof(node *) * num_children);
+    parent->children = malloc(sizeof(node*) * num_children);
 
     // 3. read children
     for (int j = 0; j < num_children; j++) {
-      child_name = safe_malloc(MAXNAME + 1);
+      child_name = malloc(MAXNAME + 1);
       scanf("%s", child_name);
 
       child = search_hash_table(hash_table, child_name);
@@ -170,13 +161,13 @@ int main(void) {
   for (int i = 0; i < trees; i++) {
     int num_lines, depth;
     scanf("%d %d", &num_lines, &depth);
-    node **nodes = safe_malloc(sizeof(node *) * MAXNODES);
+    node** nodes = malloc(sizeof(node*) * MAXNODES);
     int num_nodes = read_tree(nodes, num_lines);
 
     printf("Tree %d:\n", i + 1);
 
     score_tree(nodes, num_nodes, depth);
-    qsort(nodes, num_nodes, sizeof(node *), qcompare);
+    qsort(nodes, num_nodes, sizeof(node*), qcompare);
     print_nodes(nodes, num_nodes);
 
     if (i < trees)

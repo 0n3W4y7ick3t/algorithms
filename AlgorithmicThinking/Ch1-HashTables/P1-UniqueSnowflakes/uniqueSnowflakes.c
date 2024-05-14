@@ -11,10 +11,10 @@
 
 typedef struct snowflake_node {
   int snow_flake[WINGS_OF_SNOWFLAKE];
-  struct snowflake_node *next;
+  struct snowflake_node* next;
 } snowflake_node;
 
-int encode_snow(snowflake_node *node) {
+int encode_snow(snowflake_node* node) {
   int sum = 0;
   int i;
   for (i = 0; i < WINGS_OF_SNOWFLAKE; i++) {
@@ -59,7 +59,7 @@ int are_identical(int snow1[], int snow2[]) {
   return 0;
 }
 
-void solve(snowflake_node *snows[]) {
+void solve(snowflake_node* snows[]) {
   snowflake_node *snow1, *snow2;
   for (int i = 0; i < MAX_NUM_OF_SNOWFLAKE; i++) {
     /* compare all snows in the same link list */
@@ -82,8 +82,8 @@ void solve(snowflake_node *snows[]) {
 int main(void) {
   int n, code;
   scanf("%d", &n);
-  static snowflake_node *snowflakes[MAX_NUM_OF_SNOWFLAKE] = {NULL};
-  snowflake_node *snow;
+  static snowflake_node* snowflakes[MAX_NUM_OF_SNOWFLAKE] = {NULL};
+  snowflake_node* snow;
 
   for (int i = 0; i < n; i++) {
     snow = malloc(sizeof(snowflake_node));
