@@ -2,8 +2,9 @@
  * @author leon
  * @date Jun 01, 2024 at 10:25:53
  * @tag Graph, Dijkstra
- * @problem DMOJ problem saco08p3
+ * @problem South African Computer Olympiad 2008 Day 1 Problem 3 - Visiting Grandma
  * @link https://dmoj.ca/problem/saco08p3
+ * @result WA
  */
 #include <stdbool.h>
 #include <stdio.h>
@@ -63,7 +64,7 @@ typedef struct Cost {
   size_t num; /* number of routes with min cost */
 } Cost;
 
-Cost* dijstra(size_t n, int matrix[MATRIX_LEN(n)], int start) {
+Cost* dijkstra(size_t n, int matrix[MATRIX_LEN(n)], int start) {
   bool done[n];
   memset(done, 0, sizeof(done));
   Cost* all_costs = malloc(sizeof(Cost[n]));
@@ -110,8 +111,8 @@ Cost* dijstra(size_t n, int matrix[MATRIX_LEN(n)], int start) {
 void solve(size_t n, int matrix[MATRIX_LEN(n)],
            size_t m, int shops_pos[m], size_t ans[2]) {
   /* run dijstra twice, one from start, another from end */
-  Cost* from_start = dijstra(n, matrix, 0);
-  Cost* to_end = dijstra(n, matrix, n - 1);
+  Cost* from_start = dijkstra(n, matrix, 0);
+  Cost* to_end = dijkstra(n, matrix, n - 1);
 
   size_t min_cost = -1, cost, num_of_ways;
   for (int i = 0; i < m; ++i) {
@@ -120,7 +121,7 @@ void solve(size_t n, int matrix[MATRIX_LEN(n)],
     printf("shop %d: to end     %zu ways of weight %zu\n",
            shops_pos[i], to_end[shops_pos[i] - 1].num, to_end[shops_pos[i] - 1].cost); */
     cost = from_start[shops_pos[i] - 1].cost + to_end[shops_pos[i] - 1].cost;
-    if (min_cost > cost) {
+    if (min_cost == -1 || min_cost > cost) {
       min_cost = cost;
       num_of_ways =
           from_start[shops_pos[i] - 1].num * to_end[shops_pos[i] - 1].num;

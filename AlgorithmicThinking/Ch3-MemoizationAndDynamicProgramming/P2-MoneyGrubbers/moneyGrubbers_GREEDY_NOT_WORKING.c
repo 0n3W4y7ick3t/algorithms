@@ -1,10 +1,10 @@
 /**
  * @author leon
- * @date Sep 27, 2023 at 17:52:44
+ * @date Oct 04, 2023 at 00:16:07
+ * @tag greedy
  * @problem UVa 10980 - Lowest Price in Town
- * @tag greedy, NOT FINISHED
- * @link
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
+ * @result WA WIP
  */
 #include <stdio.h>
 #include <stdlib.h>

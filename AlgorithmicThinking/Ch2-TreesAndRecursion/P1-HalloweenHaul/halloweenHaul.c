@@ -1,7 +1,10 @@
 /**
  * @author leon
- * @date Sep 14, 2023 at 13:28:53
+ * @date Sep 14, 2023 at 23:28:53
+ * @tag tree recursion
+ * @problem DWITE '12 R1 #4 - Trick or Tree'ing
  * @link https://dmoj.ca/problem/dwite12c1p4
+ * @result AC
  */
 #include <stdio.h>
 #include <stdlib.h>

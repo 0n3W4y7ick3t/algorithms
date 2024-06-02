@@ -1,8 +1,10 @@
 /**
  * @author leon
- * @date Sep 21, 2023 at 11:09:45
+ * @date Sep 21, 2023 at 21:09:45
+ * @tag trees
+ * @problem ICPC ECNA 2005 B - Countdown
  * @link https://dmoj.ca/problem/ecna05b
- * !!! cant get right anwser on oj !!!
+ * @result WA on test case #1, 0/100
  * diffrent output with local one (same test case)
  * cant figure out whats wrong
  */

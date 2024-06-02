@@ -1,10 +1,11 @@
 /**
  * @author leon
- * @date Sep 12, 2023 at 18:39:46
+ * @date Sep 12, 2023 at 20:39:46
+ * @tag hash tables
+ * @problem J. Spelling Check
  * @link https://codeforces.com/problemset/problem/39/J
- * FAILED test 16, didn't figure out where the problem is
+ * @result WA on test 16
  */
-
 #include <stdio.h>
 #include <string.h>
 #define SIZE 1000000

@@ -1,9 +1,10 @@
 /**
  * @author leon
  * @date Sep 26, 2023 at 15:30:51
- * @link UVa 10465 - Homer Simpson
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1406
- * correct, but TOO SLOW, not feasible in terms of time proficiency
+ * @tag DP
+ * @problem UVa 10465 - Homer Simpson
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1406
+ * @result TLE as expected
  */
 #include <stdio.h>
 

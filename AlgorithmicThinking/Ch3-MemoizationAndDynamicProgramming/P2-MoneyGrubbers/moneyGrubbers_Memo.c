@@ -1,15 +1,14 @@
 /**
  * @author leon
- * @date Oct 04, 2023 at 14:16:07
- * @problem UVa 10980 - Lowest Price in Town
+ * @date Oct 04, 2023 at 00:16:07
  * @tag memoization
- * @link
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
+ * @problem UVa 10980 - Lowest Price in Town
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
+ * @result AC
  */
 #include <stdio.h>
 
 #define MAX_SCHEMES 20
-#define MAX_WANT 100
 #define MAX_TRY 200
 
 int read_number(int* number) {
@@ -67,8 +66,6 @@ double buy(double prices[], int num[], int num_schemes, double unit_price,
   double result, result_try;
   result = buy_k(prices, num, num_schemes, unit_price, want, memo);
   for (try = want + 1; try < MAX_TRY; try++) {
-    /* thanks to z3, my hero */
-    /* ALWAYS CHECK BOUNDRIES!!! */
     result_try = buy_k(prices, num, num_schemes, unit_price, try, memo);
     result = min(result_try, result);
   }

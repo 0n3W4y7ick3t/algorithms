@@ -1,15 +1,14 @@
 /**
  * @author leon
- * @date Oct 04, 2023 at 14:16:07
+ * @date Oct 04, 2023 at 00:16:07
+ * @tag DP
  * @problem UVa 10980 - Lowest Price in Town
- * @tag DP approach
- * @link
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1921
+ * @result AC
  */
 #include <stdio.h>
 
 #define MAX_SCHEMES 20
-#define MAX_WANT 100
 #define MAX_TRY 200
 
 int read_number(int* number) {

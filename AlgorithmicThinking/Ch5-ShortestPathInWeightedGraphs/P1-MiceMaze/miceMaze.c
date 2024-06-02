@@ -3,8 +3,8 @@
  * @date Oct 20, 2023 at 16:26:21
  * @tag Dijkstra, Graph
  * @problem UVa problem 1112 - Mice and Maze
- * @link
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=246&page=show_problem&problem=3553
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=246&page=show_problem&problem=3553
+ * @result WA
  */
 #include <stdbool.h>
 #include <stdio.h>

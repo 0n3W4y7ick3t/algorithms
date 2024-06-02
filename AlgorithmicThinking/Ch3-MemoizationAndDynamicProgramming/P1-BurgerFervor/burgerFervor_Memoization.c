@@ -1,8 +1,10 @@
 /**
  * @author leon
- * @date Sep 27, 2023 at 10:19:40
- * @link UVa 10465 - Homer Simpson
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1406
+ * @date Sep 27, 2023 at 21:20:14
+ * @tag DP
+ * @problem UVa 10465 - Homer Simpson
+ * @link  https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1406
+ * @result AC
  */
 
 #include <stdio.h>

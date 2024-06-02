@@ -1,11 +1,11 @@
 /**
  * @author leon
- * @date Sep 27, 2023 at 11:50:36
- * @link UVa 10465 - Homer Simpson
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1406
- * using dynamic programming
+ * @date Sep 27, 2023 at 21:50:36
+ * @tag DP
+ * @problem UVa 10465 - Homer Simpson
+ * @link  https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=16&page=show_problem&problem=1406
+ * @result AC
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 

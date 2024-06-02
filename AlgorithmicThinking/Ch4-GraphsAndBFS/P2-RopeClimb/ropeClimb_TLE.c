@@ -1,9 +1,10 @@
 /**
  * @author leon
- * @date Oct 16, 2023 at 10:40:37
+ * @date Oct 17, 2023 at 21:11:10
  * @tag Graph, BFS
- * @problem DMOJ wc18c1s3
+ * @problem WC '18 Contest 1 S3 - Reach for the Top
  * @link https://dmoj.ca/problem/wc18c1s3
+ * @result TLE as expected
  */
 #include <limits.h>
 #include <stdint.h>

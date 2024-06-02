@@ -1,4 +1,10 @@
-// https://dmoj.ca/problem/lkp18c2p1
+/**
+ * @author leon
+ * @date Sep 11, 2023 at 20:25:56
+ * @problem LKP '18 Contest 2 P1 - Food Lines
+ * @link https://dmoj.ca/problem/lkp18c2p1
+ * @result AC
+ */
 #include <stdio.h>
 #define _MAX_LINES_ 100
 

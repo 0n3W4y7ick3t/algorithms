@@ -1,9 +1,10 @@
 /**
  * @author leon
  * @date Sep 12, 2023 at 14:43:59
- * @link
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=15&page=show_problem&problem=1332
- * UVa problem 10391
+ * @tag hashtables
+ * @problem UVa 10391 - Compound Words
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=15&page=show_problem&problem=1332
+ * @result AC
  */
 #include <stdio.h>
 #include <stdlib.h>

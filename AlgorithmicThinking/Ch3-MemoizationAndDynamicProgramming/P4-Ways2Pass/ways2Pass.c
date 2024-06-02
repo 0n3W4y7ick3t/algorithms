@@ -1,10 +1,10 @@
 /**
  * @author leon
- * @date Oct 10, 2023 at 16:22:26
- * @tag dynamic programming
- * @problem UVa problem 10910
- * @link
- * https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1851
+ * @date Oct 10, 2023 at 00:22:26
+ * @tag DP
+ * @problem 10910 - Marks Distribution
+ * @link https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=21&page=show_problem&problem=1851
+ * @result AC
  */
 #include <stdio.h>
 

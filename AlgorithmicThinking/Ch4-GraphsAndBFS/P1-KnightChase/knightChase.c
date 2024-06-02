@@ -1,9 +1,10 @@
 /**
  * @author leon
- * @date Oct 10, 2023 at 19:10:05
- * @tag Graphs, Dynamic Programming
- * @problem DMOJ problem ccc95s4
+ * @date Oct 10, 2023 at 20:10:05
+ * @tag Graph, DP
+ * @problem CCC '99 S4 - A Knightly Pursuit
  * @link https://dmoj.ca/problem/ccc99s4
+ * @result RTE segment fault
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,19 +32,19 @@ void visit_p(board B, int rows, int cols, int from_row, int from_col,
   }
 }
 
-void print_board(board B, int rows, int cols) {
-  int i, j;
-  for (i = 0; i < rows; i++) {
-    for (j = 0; j < cols; j++)
-      printf("%3d", B[i][j]);
-    printf("\n");
-  }
-}
+// void print_board(board B, int rows, int cols) {
+//   int i, j;
+//   for (i = 0; i < rows; i++) {
+//     for (j = 0; j < cols; j++)
+//       printf("%3d", B[i][j]);
+//     printf("\n");
+//   }
+// }
 
 void BFS(board B, int rows, int cols, Pos* kp) {
   static visited cur_visited, new_visited;
   int num_cur, num_new;
-  int i, j, from_row, from_col;
+  int i, from_row, from_col;
 
   /* start point */
   B[kp->row][kp->col] = 0;
@@ -101,8 +102,8 @@ int main(void) {
         B[i][j] = -1;
 
     /* find out the min moves for knight to get to all positions */
-    printf("start BFS from (%d, %d) at a broad size of %dx%d...\n", kp->row,
-           kp->col, rows, cols);
+    // printf("start BFS from (%d, %d) at a broad size of %dx%d...\n",
+    //        kp->row, kp->col, rows, cols);
     BFS(B, rows, cols, kp);
     /* print_board(B, rows, cols); */
     /* thus the knight can get to (i,j) in (Bij + 2n) steps, n=0,1,2,3,4
@@ -114,8 +115,7 @@ int main(void) {
     for (i = pp->row, j = pp->col; i <= rows; i++) {
       p_moves = i - pp->row;
       k_moves = B[i][j];
-      printf("@B[%d][%d] knight's moves: %d, pawn's move: %d\n", i, j, k_moves,
-             p_moves);
+      // printf("@B[%d][%d] knight's moves: %d, pawn's move: %d\n", i, j, k_moves, p_moves);
       if (k_moves >= 0 && p_moves >= k_moves && (p_moves - k_moves) % 2 == 0) {
         printf("Win in %d knight move(s).\n", p_moves);
         break;

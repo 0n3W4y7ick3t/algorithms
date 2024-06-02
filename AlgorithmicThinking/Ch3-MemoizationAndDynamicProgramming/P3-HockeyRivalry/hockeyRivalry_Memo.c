@@ -1,10 +1,10 @@
 /**
  * @author leon
- * @date Tue, Oct 10 2023 at 12:01:45
+ * @date Tue, Oct 10 2023 at 00:11:08
  * @tag memoziation
- * @problem DMOJ problem cco18p1 (Canadian Computing Olympiad 2018 Day 1,
- * Problem 1)
+ * @problem CCO '18 P1 - Geese vs. Hawks
  * @link https://dmoj.ca/problem/cco18p1
+ * @result AC
  */
 
 #include <stdio.h>

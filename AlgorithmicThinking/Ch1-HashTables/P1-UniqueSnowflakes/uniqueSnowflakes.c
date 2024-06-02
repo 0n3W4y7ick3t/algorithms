@@ -1,7 +1,10 @@
 /**
  * @author leon
- * @date Sep 11, 2023 at 15:56:28
+ * @date Sep 12, 2023 at 03:04:28
+ * @tag hash tables
+ * @problem CCO '07 P2 - Snowflakes
  * @link https://dmoj.ca/problem/cco07p2
+ * @result AC 100/100
  */
 #include <stdio.h>
 #include <stdlib.h>

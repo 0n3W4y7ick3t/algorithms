@@ -2,8 +2,9 @@
  * @author leon
  * @date Oct 18, 2023 at 10:02:51
  * @tag graphs, dynamic programming
- * @problem DMOJ ecna16d
+ * @problem ICPC ECNA 2016 D - Lost in Translation
  * @link https://dmoj.ca/problem/ecna16d
+ * @result AC
  */
 #include <stddef.h>
 #include <stdio.h>
