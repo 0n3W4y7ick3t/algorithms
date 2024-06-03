@@ -6,6 +6,23 @@
  * @link https://dmoj.ca/problem/saco08p3
  * @result WA
  */
+
+/* this anser is WRONG
+  I initially thought the number of ways equals to:
+  sigma( ways_of(0, i) * ways_of(i,n-1) ), i from 0 to m-1,
+  where ways_of(a, b) is the ways of traveling from node a to node b with shortest path.
+
+  This overlooked more than one shops can be visited, for example:
+  imagine there are two shops, a and b, such that it takes
+  X from 0 to a, X from b to m-1
+  Y from 0 to b, Y from a to m-1, let X < Y
+  so the overall shortest path is of length X + Y,
+  when there exist some paths that takes Y - X from b to a,
+  then 0->a->b->m-1 also satifies what we need, with a length of X + Y,
+  that's ways_of(0,a) * ways_of(a,b) * ways_of(b, m-1) more ways.
+  My model didn't account of this.
+*/
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -111,6 +128,7 @@ Cost* dijkstra(size_t n, int matrix[MATRIX_LEN(n)], int start) {
 void solve(size_t n, int matrix[MATRIX_LEN(n)],
            size_t m, int shops_pos[m], size_t ans[2]) {
   /* run dijstra twice, one from start, another from end */
+  /* naive presume that is WRONG */
   Cost* from_start = dijkstra(n, matrix, 0);
   Cost* to_end = dijkstra(n, matrix, n - 1);
 
