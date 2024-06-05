@@ -1,0 +1,12 @@
+binary search can do much more than searching an sorted array for index.
+
+If you found a problem with two features, then it's probably worth of a try with BS:
+
+1. hard optimality but easy feasibility
+    to find an optimal solution is hard, but with any answer we can easily tell whether it is right;
+2. infeasible-feasible split
+    the answer space is divided into two parts, one side is the infeasible ones, another is the feasible ones, (and the optimal answer sits in between)
+
+so the crux is to find an algorithm to determine whether an answer is feasible, and this algorithm can literally be anything, it can be as easy as the < used in sorted-array search, or a graph algorithm.
+
+Also it's very likely to make mistakes on setting low, mid, high and returning  whether low or high, the key is to build an invariant, to make low/high is always feasible, and another is always not. Then when the two cross, return the former.
