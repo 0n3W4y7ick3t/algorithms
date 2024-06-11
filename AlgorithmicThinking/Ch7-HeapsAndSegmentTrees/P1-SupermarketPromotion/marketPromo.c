@@ -122,6 +122,6 @@ int main(void) {
   }
   heap_delete(min_heap);
   heap_delete(max_heap);
-  printf("%zu", result);
+  printf("%zu\n", result);
   return EXIT_SUCCESS;
 }
