@@ -1,7 +1,0 @@
-- if recursion solves too many sub-problems over and over again, then it is not efficient, needs to be optimized
-two ways to optimize:
-
-1. Memoization: similar to recursion, but store the results of sub-problems into a table, skip the logics in recursion if sub-problem can be found in memo;
-
-2. Dynamic Programming: solve the problem from bottom up and note the results, every time we need to solve a sub-problem,
-that answer to it is already noted in the dp table, we just need to look it up and use it.

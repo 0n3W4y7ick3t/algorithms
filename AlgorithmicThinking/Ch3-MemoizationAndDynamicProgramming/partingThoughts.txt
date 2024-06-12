@@ -1,7 +1,17 @@
+- if recursion solves too many sub-problems over and over again, then it is not efficient, needs to be optimized
+two ways to optimize:
+
+1. Memoization: similar to recursion, but store the results of sub-problems into a table, skip the logics in recursion if sub-problem can be found in memo;
+
+2. Dynamic Programming: solve the problem from bottom up and note the results, every time we need to solve a sub-problem,
+that answer to it is already noted in the dp table, we just need to look it up and use it.
+
+
 key to solving dynamic programming problems:
 find the optimal substructure and overlapping subproblems, find how they are related to each other.
 the mathematical induction is the natural prove of the correctness of these algorithms, dp, memo, recursion, all the same.
 
 
-"Many algorithm textbooks delve deeper into the theory and application of memoization and dynamic programming. My favorite treatment is *Algorithm Design* by Jon Kleinberg and Éva Tardos (2006). "
+  "Many algorithm textbooks delve deeper into the theory and application of memoization and dynamic programming.
+My favorite treatment is *Algorithm Design* by Jon Kleinberg and Éva Tardos (2006)."
 take a look at this book when having time.
